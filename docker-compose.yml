@@ -1,0 +1,23 @@
+version: '3'
+services:
+  react:
+    build:
+      context: ./frontend  # React 애플리케이션의 경로
+    ports:
+      - "3000:80"  # React 앱을 3000 포트에 맵핑 (Nginx가 포트 80을 사용)
+    networks:
+      - app_network
+    depends_on:
+      - fastapi  # React 앱이 FastAPI에 의존함
+
+  fastapi:
+    build:
+      context: ./backend  # FastAPI 애플리케이션의 경로
+    ports:
+      - "8000:8000"  # FastAPI 앱을 8000 포트에 맵핑
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
